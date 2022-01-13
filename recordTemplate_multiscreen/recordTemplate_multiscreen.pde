@@ -1,5 +1,6 @@
-Boolean RECORD = false;
+Boolean RECORD = true;
 
+String OUTPUT_PATH = "output/";
 String SKETCH_NAME = "recordTemplate_multiscreen";
 
 int DISPLAY_WIDTH = 480;
@@ -10,14 +11,13 @@ int TOTAL_DISPLAYS = 3;
 int DISPLAY_GAP = 576;
 
 
-//int OUTPUT_WIDTH = 480;
-//int OUTPUT_HEIGHT = 1600;
-
-int TOTAL_FRAMES = 3600;
+int TOTAL_FRAMES = 2;
 
 int totalWidth, totalHeight;
 
 int FPS = 60;
+
+Display[] displays;
 
 PGraphics gfx;
 
@@ -27,6 +27,7 @@ float timeStep;
 float previewScalar;
 float preview_width, preview_height;
 
+Content content;
 
 void settings() {
   if (RECORD) size(400, 400, P3D);
@@ -57,7 +58,21 @@ void setup() {
     preview_width = totalWidth*previewScalar;
   }
 
+  // time increment
   timeStep = 1.0/FPS;
+  
+  // display properties
+  displays = new Display[TOTAL_DISPLAYS];
+  
+  for(int d=0; d < TOTAL_DISPLAYS; d++) {
+    
+    int x = d*(DISPLAY_WIDTH+DISPLAY_GAP);
+    int y = 0;
+    
+    displays[d] = new Display(x, y, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+  }
+  
+  content = new Content();
 
   background(0);
 }
@@ -66,23 +81,19 @@ void draw() {
   background(0);
 
   // render gfx
-  render();
+  content.render();
 
   // display content
   displayGFX();
   
+  // render black in between displays for preview
   renderGaps(); 
 
-
+  // record frames
+  if (RECORD) recordFrames();
+  
   //increment time
   time += timeStep;
-
-  // record frames
-  if (RECORD) {
-
-    gfx.save(SKETCH_NAME+"_"+nfs(frameCount, 4)+".png");
-    if (frameCount == TOTAL_FRAMES ) exit();
-  }
 }
 
 void displayGFX() {
@@ -114,11 +125,29 @@ void renderGaps() {
   pop();
 }
 
-
-void render() {
-  gfx.beginDraw();
-
-  gfx.background(255, 0, 255);
-
-  gfx.endDraw();
+void recordFrames() {
+  
+    String frameString = nfs(frameCount, 4);
+    String fileName = SKETCH_NAME+"_"+frameString+".png";
+  
+    for(int d=0; d<TOTAL_DISPLAYS; d++) {
+      
+      String displayString = "/display"+(d+1);
+      
+      String path = OUTPUT_PATH+displayString+"/"; 
+      
+      int x = displays[d].x;
+      int y = displays[d].y;
+      int w = displays[d].w;
+      int h = displays[d].h;
+      
+      PImage displayFrame = createImage(DISPLAY_WIDTH, DISPLAY_HEIGHT, RGB);
+      
+      displayFrame.copy(gfx, x, y, w, h, 0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+      
+      displayFrame.save(path+displayString+fileName);
+      
+    }
+    
+    if (frameCount == TOTAL_FRAMES ) exit();
 }
