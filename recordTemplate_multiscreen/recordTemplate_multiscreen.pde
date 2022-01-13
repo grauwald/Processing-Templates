@@ -1,4 +1,5 @@
-Boolean RECORD = true;
+Boolean RECORD = false;
+Boolean RECORD_PREVIEW = true;
 
 String OUTPUT_PATH = "output/";
 String SKETCH_NAME = "recordTemplate_multiscreen";
@@ -30,7 +31,7 @@ float preview_width, preview_height;
 Content content;
 
 void settings() {
-  if (RECORD) size(400, 400, P3D);
+  if (RECORD && !RECORD_PREVIEW) size(400, 400, P3D);
   else fullScreen(P3D);
 
   smooth(8);
@@ -90,7 +91,8 @@ void draw() {
   renderGaps(); 
 
   // record frames
-  if (RECORD) recordFrames();
+  if (RECORD && !RECORD_PREVIEW) recordFrames();
+  if(RECORD_PREVIEW) recordPreview();
   
   //increment time
   time += timeStep;
@@ -150,4 +152,17 @@ void recordFrames() {
     }
     
     if (frameCount == TOTAL_FRAMES ) exit();
+}
+
+void recordPreview() {
+  
+  String frameString = nfs(frameCount, 4);
+  String fileName = SKETCH_NAME+"_"+frameString+".png";
+  
+  String path = OUTPUT_PATH+"preview/"; 
+  
+  save(path+fileName);
+  
+  if (frameCount == TOTAL_FRAMES ) exit();
+  
 }
