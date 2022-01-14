@@ -1,5 +1,5 @@
 Boolean RECORD = false;
-Boolean RECORD_PREVIEW = true;
+Boolean RECORD_PREVIEW = false;
 
 String OUTPUT_PATH = "output/";
 String SKETCH_NAME = "recordTemplate_multiscreen";
@@ -12,7 +12,7 @@ int TOTAL_DISPLAYS = 3;
 int DISPLAY_GAP = 576;
 
 
-int TOTAL_FRAMES = 2;
+int TOTAL_FRAMES = 20;
 
 int totalWidth, totalHeight;
 
@@ -29,6 +29,8 @@ float previewScalar;
 float preview_width, preview_height;
 
 Content content;
+
+HUD hud;
 
 void settings() {
   if (RECORD && !RECORD_PREVIEW) size(400, 400, P3D);
@@ -74,6 +76,8 @@ void setup() {
   }
   
   content = new Content();
+  
+  hud = new HUD();
 
   background(0);
 }
@@ -93,6 +97,8 @@ void draw() {
   // record frames
   if (RECORD && !RECORD_PREVIEW) recordFrames();
   if(RECORD_PREVIEW) recordPreview();
+  
+  hud.render();
   
   //increment time
   time += timeStep;
