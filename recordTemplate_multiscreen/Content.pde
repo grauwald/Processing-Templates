@@ -9,7 +9,7 @@ class Content {
 
     gfx.background(255, 0, 255);
     
-    gfx.strokeWeight(40);
+    gfx.strokeWeight(10);
     gfx.stroke(0, 255, 255);
     gfx.fill(255, 255, 0, 128 );
     

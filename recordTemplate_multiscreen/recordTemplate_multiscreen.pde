@@ -29,7 +29,7 @@ float time = 0;
 float timeStep;
 
 float previewScalar;
-float preview_width, preview_height;
+float previewWidth, previewHeight;
 
 Content content;
 
@@ -43,54 +43,62 @@ void settings() {
 }
 
 void setup() {
-  
-    // display properties
-  displays = new Display[TOTAL_DISPLAYS];
-  
-  int x = 0;
-  int y = 0;
-  
-  for(int d=0; d < TOTAL_DISPLAYS; d++) {
-    
-    x += DISPLAY_GAPS[d];
-    if(d >= 1) x += DISPLAY_WIDTHS[d-1];
-    
-    displays[d] = new Display(x, y, DISPLAY_WIDTHS[d], DISPLAY_HEIGHT);
-    
-    
-    totalWidth += (DISPLAY_GAPS[d]+DISPLAY_WIDTHS[d]);
-    //x = totalWidth;
-    
-    println("x: "+x);
 
+  // get sizes
+  for (int d=0; d < TOTAL_DISPLAYS; d++) totalWidth += (DISPLAY_GAPS[d]+DISPLAY_WIDTHS[d]);
+  totalHeight = DISPLAY_HEIGHT;
+
+
+  // setup preview scaling
+  if (totalWidth >= totalHeight) {
+    previewWidth = width;
+    previewScalar = float(width)/totalWidth;
+    previewHeight = totalHeight*previewScalar;
+  } else {
+    previewHeight = height;
+    previewScalar = float(height)/totalHeight;
+    previewWidth = totalWidth*previewScalar;
   }
 
 
-  totalHeight = DISPLAY_HEIGHT;
+  // display properties
+  displays = new Display[TOTAL_DISPLAYS];
+
+  int x = 0;
+  int y = 0;
+
+  for (int d=0; d < TOTAL_DISPLAYS; d++) {
+
+    x += DISPLAY_GAPS[d];
+    if (d >= 1) x += DISPLAY_WIDTHS[d-1];
+
+    if (RECORD) displays[d] = new Display(x, y, DISPLAY_WIDTHS[d], DISPLAY_HEIGHT);
+    else displays[d] = new Display(
+      round(x*previewScalar), 
+      round(y*previewScalar), 
+      round(DISPLAY_WIDTHS[d]*previewScalar), 
+      round(DISPLAY_HEIGHT*previewScalar)
+    );
+
+    println("x: "+x);
+  }
+
+
+  // set render buffer
+  if (!RECORD) {
+    totalWidth = round(previewWidth);
+    totalHeight = round(previewHeight);
+  }
 
   gfx = createGraphics(totalWidth, totalHeight, P3D);
 
-  // setup preview scaling
-  
-  if (totalWidth >= totalHeight) {
-    preview_width = width;
-
-    previewScalar = float(width)/totalWidth;
-    preview_height = totalHeight*previewScalar;
-  } else {
-
-    preview_height = height;
-
-    previewScalar = float(height)/totalHeight;
-    preview_width = totalWidth*previewScalar;
-  }
 
   // time increment
   timeStep = 1.0/FPS;
 
   // content manager, separate from main app so it can be modified
   content = new Content();
-  
+
   hud = new HUD();
 
   background(0);
@@ -104,16 +112,16 @@ void draw() {
 
   // display content
   displayGFX();
-  
+
   // render black in between displays for preview
-  renderGaps(); 
+  renderGaps();
 
   // record frames
   if (RECORD && !RECORD_PREVIEW) recordFrames();
-  if(RECORD_PREVIEW) recordPreview();
-  
+  if (RECORD_PREVIEW) recordPreview();
+
   hud.render();
-  
+
   //increment time
   time += timeStep;
 }
@@ -124,68 +132,66 @@ void displayGFX() {
   imageMode(CENTER);
   translate(width*.5, height*.5);
 
-  image(gfx, 0, 0, preview_width, preview_height);
-  
+  image(gfx, 0, 0, previewWidth, previewHeight);
+
   pop();
 }
 
 void renderGaps() {
   push();
-  
+
   float x = 0;
-  float y = (height-preview_height)*.5;
+  float y = (height-previewHeight)*.5;
   float h = DISPLAY_HEIGHT*previewScalar;
-  
-  for(int d=0; d<TOTAL_DISPLAYS; d++) {
+
+  for (int d=0; d<TOTAL_DISPLAYS; d++) {
     float w = DISPLAY_GAPS[d]*previewScalar;
-    
+
     fill(0);
     noStroke();
-    
+
     rect(x, y, w, h);
-    
+
     x += (DISPLAY_GAPS[d]+DISPLAY_WIDTHS[d])*previewScalar;
   }
-  
+
   pop();
 }
 
 void recordFrames() {
-  
-    String frameString = nfs(frameCount, 4);
-    String fileName = SKETCH_NAME+"_"+frameString+".png";
-  
-    for(int d=0; d<TOTAL_DISPLAYS; d++) {
-      
-      String displayString = "/display"+(d+1);
-      
-      String path = OUTPUT_PATH+displayString+"/"; 
-      
-      int x = displays[d].x;
-      int y = displays[d].y;
-      int w = displays[d].w;
-      int h = displays[d].h;
-      
-      PImage displayFrame = createImage(DISPLAY_WIDTHS[d], DISPLAY_HEIGHT, RGB);
-      
-      displayFrame.copy(gfx, x, y, w, h, 0, 0, DISPLAY_WIDTHS[d], DISPLAY_HEIGHT);
-      
-      displayFrame.save(path+displayString+fileName);
-      
-    }
-    
-    if (frameCount == TOTAL_FRAMES ) exit();
+
+  String frameString = nfs(frameCount, 4);
+  String fileName = SKETCH_NAME+"_"+frameString+".png";
+
+  for (int d=0; d<TOTAL_DISPLAYS; d++) {
+
+    String displayString = "/display"+(d+1);
+
+    String path = OUTPUT_PATH+displayString+"/";
+
+    int x = displays[d].x;
+    int y = displays[d].y;
+    int w = displays[d].w;
+    int h = displays[d].h;
+
+    PImage displayFrame = createImage(DISPLAY_WIDTHS[d], DISPLAY_HEIGHT, RGB);
+
+    displayFrame.copy(gfx, x, y, w, h, 0, 0, DISPLAY_WIDTHS[d], DISPLAY_HEIGHT);
+
+    displayFrame.save(path+displayString+fileName);
+  }
+
+  if (frameCount == TOTAL_FRAMES ) exit();
 }
 
 void recordPreview() {
-  
+
   String frameString = nfs(frameCount, 4);
   String fileName = SKETCH_NAME+"_"+frameString+".png";
-  
-  String path = OUTPUT_PATH+"preview/"; 
-  
+
+  String path = OUTPUT_PATH+"preview/";
+
   save(path+fileName);
-  
+
   if (frameCount == TOTAL_FRAMES ) exit();
-  
 }
