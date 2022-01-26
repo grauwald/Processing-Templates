@@ -1,41 +1,17 @@
-Boolean RECORD = false;
-Boolean RECORD_PREVIEW = false;
 
-String OUTPUT_PATH = "output/";
-String SKETCH_NAME = "recordTemplate_multiscreen";
-
-int[] DISPLAY_WIDTHS = {480, 480, 480, 480, 480, 3040, 480, 480, 480, 480, 480};
-int DISPLAY_HEIGHT = 1600;
-
-int TOTAL_DISPLAYS = 11;
-
-
-//   | | | | |  [   ]  | | | | |
-
-int[] DISPLAY_GAPS = {0, 576, 576, 576, 576, 896, 896, 576, 576, 576, 576};
-
-
-int TOTAL_FRAMES = 20;
-
-int totalWidth, totalHeight;
-
-int FPS = 60;
 
 Display[] displays;
 
 PGraphics gfx;
-
-float time = 0;
-float timeStep;
-
-float previewScalar;
-float previewWidth, previewHeight;
 
 Content content;
 
 HUD hud;
 
 void settings() {
+  loadSettings();
+  parseSettings();
+  
   if (RECORD && !RECORD_PREVIEW) size(400, 400, P3D);
   else fullScreen(P3D);
 
@@ -44,57 +20,7 @@ void settings() {
 
 void setup() {
 
-  // get sizes
-  for (int d=0; d < TOTAL_DISPLAYS; d++) totalWidth += (DISPLAY_GAPS[d]+DISPLAY_WIDTHS[d]);
-  totalHeight = DISPLAY_HEIGHT;
-
-
-  // setup preview scaling
-  if (totalWidth >= totalHeight) {
-    previewWidth = width;
-    previewScalar = float(width)/totalWidth;
-    previewHeight = totalHeight*previewScalar;
-  } else {
-    previewHeight = height;
-    previewScalar = float(height)/totalHeight;
-    previewWidth = totalWidth*previewScalar;
-  }
-
-
-  // display properties
-  displays = new Display[TOTAL_DISPLAYS];
-
-  int x = 0;
-  int y = 0;
-
-  for (int d=0; d < TOTAL_DISPLAYS; d++) {
-
-    x += DISPLAY_GAPS[d];
-    if (d >= 1) x += DISPLAY_WIDTHS[d-1];
-
-    if (RECORD) displays[d] = new Display(x, y, DISPLAY_WIDTHS[d], DISPLAY_HEIGHT);
-    else displays[d] = new Display(
-      round(x*previewScalar), 
-      round(y*previewScalar), 
-      round(DISPLAY_WIDTHS[d]*previewScalar), 
-      round(DISPLAY_HEIGHT*previewScalar)
-    );
-
-    println("x: "+x);
-  }
-
-
-  // set render buffer
-  if (!RECORD) {
-    totalWidth = round(previewWidth);
-    totalHeight = round(previewHeight);
-  }
-
   gfx = createGraphics(totalWidth, totalHeight, P3D);
-
-
-  // time increment
-  timeStep = 1.0/FPS;
 
   // content manager, separate from main app so it can be modified
   content = new Content();
@@ -161,13 +87,13 @@ void renderGaps() {
 void recordFrames() {
 
   String frameString = nfs(frameCount, 4);
-  String fileName = SKETCH_NAME+"_"+frameString+".png";
 
   for (int d=0; d<TOTAL_DISPLAYS; d++) {
 
-    String displayString = "/display"+(d+1);
+    String displayString = "display"+(d+1);
+    String fileName = SKETCH_NAME+"_"+displayString+"_"+frameString+".png";
+    String path = OUTPUT_PATH+displayString+"/"+displayString+"/";
 
-    String path = OUTPUT_PATH+displayString+"/";
 
     int x = displays[d].x;
     int y = displays[d].y;

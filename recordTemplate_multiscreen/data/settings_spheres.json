@@ -1,0 +1,18 @@
+{
+  "record": false,
+  "record_preview": false,
+
+  "output_path": "output/",
+  "sketch_name": "recordTemplate_multiscreen",
+
+  "display_widths": [480, 480, 480, 480, 480, 3040, 480, 480, 480, 480, 480],
+  "display_height": 1600,
+
+  "total_displays": 11,
+
+  "display_gaps": [0, 576, 576, 576, 576, 896, 896, 576, 576, 576, 576],
+
+  "total_frames": 20,
+  "fps": 60,
+  "start_time": 0
+}
