@@ -3,6 +3,9 @@ String settingsPath = "settings_spheres.json";
 
 Boolean RECORD;
 Boolean RECORD_PREVIEW;
+Boolean RECORD_PROOF;
+
+int TOTAL_PROOFS;
 
 String OUTPUT_PATH;
 String SKETCH_NAME;
@@ -27,11 +30,16 @@ float time, timeStep;
 float previewScalar;
 float previewWidth, previewHeight;
 
+int proofsRecorded = 0;
+
 void loadSettings() {
   JSONObject settings = loadJSONObject(settingsPath);
 
   RECORD = settings.getBoolean("record");
   RECORD_PREVIEW = settings.getBoolean("record_preview");
+
+  RECORD_PROOF = settings.getBoolean("record_proof");
+  TOTAL_PROOFS = settings.getInt("total_proofs");
 
   OUTPUT_PATH = settings.getString("output_path");
   SKETCH_NAME = settings.getString("sketch_name");
@@ -88,7 +96,7 @@ void parseSettings() {
     x += DISPLAY_GAPS[d];
     if (d >= 1) x += DISPLAY_WIDTHS[d-1];
 
-    if (RECORD) displays[d] = new Display(x, y, DISPLAY_WIDTHS[d], DISPLAY_HEIGHT);
+    if (RECORD || RECORD_PROOF) displays[d] = new Display(x, y, DISPLAY_WIDTHS[d], DISPLAY_HEIGHT);
     else displays[d] = new Display(
       round(x*previewScalar),
       round(y*previewScalar),
@@ -99,7 +107,7 @@ void parseSettings() {
 
 
   // set render buffer
-  if (!RECORD) {
+  if (!RECORD && !RECORD_PROOF) {
     totalWidth = round(previewWidth);
     totalHeight = round(previewHeight);
   }

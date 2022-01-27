@@ -1,0 +1,21 @@
+{
+  "record": false,
+  "record_preview": false,
+
+  "record_proof": false,
+  "total_proofs": 10,
+
+  "output_path": "output/insta/",
+  "sketch_name": "recordTemplate_multiscreen",
+
+  "display_widths": [1920],
+  "display_height": 1080,
+
+  "total_displays": 1,
+
+  "display_gaps": [0],
+
+  "total_frames": 1800,
+  "fps": 30,
+  "start_time": 0
+}
