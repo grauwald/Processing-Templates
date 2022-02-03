@@ -117,7 +117,7 @@ void recordFrames(int frameNumber) {
 
     displayFrame.copy(gfx, x, y, w, h, 0, 0, DISPLAY_WIDTHS[d], DISPLAY_HEIGHT);
 
-    displayFrame.save(path+displayString+fileName);
+    displayFrame.save(path+fileName);
   }
 
   if (frameCount == TOTAL_FRAMES ) exit();

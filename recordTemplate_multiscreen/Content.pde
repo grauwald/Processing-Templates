@@ -7,7 +7,8 @@ class Content {
   void render() {
     gfx.beginDraw();
 
-    gfx.perspective(PI/3.0,(float)totalWidth/totalHeight,1, totalWidth*10);
+    // gfx.perspective(PI/3.0,(float)totalWidth/totalHeight,1, totalWidth*10);
+    gfx.ortho();
 
     gfx.background(255, 0, 255);
 

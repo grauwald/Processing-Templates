@@ -2,7 +2,7 @@
   "record": false,
   "record_preview": false,
 
-  "record_proof": true,
+  "record_proof": false,
   "total_proofs": 10,
 
   "output_path": "output/spheres/",
