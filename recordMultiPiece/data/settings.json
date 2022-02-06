@@ -1,0 +1,15 @@
+{
+  "record": true,
+
+  "total_pieces": 2,
+
+  "output_path": "output/",
+  "sketch_name": "recordMultiPiece",
+
+  "display_width": 500,
+  "display_height": 500,
+
+  "total_frames": 10,
+  "fps": 24,
+  "start_time": 0
+}

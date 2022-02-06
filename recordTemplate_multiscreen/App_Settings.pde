@@ -73,7 +73,7 @@ void parseSettings() {
   totalHeight = DISPLAY_HEIGHT;
 
   // setup preview scaling
-  if (totalWidth >= totalHeight) {
+  if (totalWidth > totalHeight) {
     previewWidth = displayWidth;
     previewScalar = float(displayWidth)/totalWidth;
     previewHeight = totalHeight*previewScalar;

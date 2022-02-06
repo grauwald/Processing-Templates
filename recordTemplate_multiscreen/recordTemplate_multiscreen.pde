@@ -20,17 +20,24 @@ void settings() {
 
 void setup() {
 
+  background(0);
+
+  frameRate(FPS);
+
   gfx = createGraphics(totalWidth, totalHeight, P3D);
 
   // content manager, separate from main app so it can be modified
   content = new Content();
+  content.render();
 
   hud = new HUD();
 
-  background(0);
+
 }
 
 void draw() {
+
+
   background(0);
 
   // render gfx
