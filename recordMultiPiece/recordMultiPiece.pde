@@ -6,6 +6,8 @@ Content content;
 
 HUD hud;
 
+String[] ffmpeg_commands = new String[0];
+
 void settings() {
   loadSettings();
 
@@ -69,10 +71,6 @@ void recordFrames() {
   gfx.save(localPath+fileName);
 
   if (currentFrame == TOTAL_FRAMES ){
-    // terminal command to move into output directory
-    String path = sketchPath()+"/"+localPath;
-    // String[] cd = {"cd", sketchPath()+localPath};
-    // println("path", path);
 
     // construct terminal command to assemble APNG file
     // requires FFMPEG installed on system https://www.ffmpeg.org/
@@ -84,16 +82,18 @@ void recordFrames() {
 
     println(ffmpeg);
 
-    // finally execute above commands in terminal
-    // String[] commands = {cd, ffmpeg};
-    // String[] renameTest = {"mv",  ""}
-    // exec(cd);
-    delay(1000);
-    exec(ffmpegSegments);
+    ffmpeg_commands = append(ffmpeg_commands, ffmpeg);
+
+    // delay(1000);
+    // exec(ffmpegSegments);
 
     // if we're at the last one close the program
     println("currentPiece/TOTAL_PIECES: ", currentPiece+"/"+TOTAL_PIECES);
-    if(currentPiece >= TOTAL_PIECES) exit();
+    if(currentPiece >= TOTAL_PIECES){
+      saveStrings("output/ffmpeg_commands.txt", ffmpeg_commands);
+      exit();
+
+    }
     // otherwise generate the next piece
     else initContent();
   }
