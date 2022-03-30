@@ -6,7 +6,7 @@
   "total_proofs": 10,
 
   "output_path": "output/insta/",
-  "sketch_name": "recordTemplate_multiscreen",
+  "sketch_name": "insta_template",
 
   "display_widths": [1080, 1080, 1080],
   "display_height": 1350,
