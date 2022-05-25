@@ -1,0 +1,21 @@
+{
+  "record": false,
+  "record_preview": true,
+
+  "record_proof": false,
+  "total_proofs": 10,
+
+  "output_path": "output/hd_triptych/",
+  "sketch_name": "Chromatica_01",
+
+  "display_widths": [1080, 1080, 1080],
+  "display_height": 1920,
+
+  "total_displays": 3,
+
+  "display_gaps": [0, 540, 540],
+
+  "total_frames": 1800,
+  "fps": 30,
+  "start_time": 0
+}
