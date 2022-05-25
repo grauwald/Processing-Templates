@@ -4,5 +4,5 @@ Templates for the Processing programming language.  Many of these are either fra
 
 ## Usage
 
-In general each sketch will have a `content.pde` file where the developers custom should go.  The `data/settings.json` contains constants used to set up the project based on it's particular needs.
+In general each sketch will have a `content.pde` file where the developers custom code should go.  The `data/settings.json` contains constants used to set up the project based on it's particular needs.
 
