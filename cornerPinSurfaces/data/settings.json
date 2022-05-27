@@ -1,0 +1,26 @@
+{
+  "record": false,
+
+  "output_path": "output/",
+  "sketch_name": "CornerPinSurfacesTemplate",
+
+  "gfx_width": 1920,
+  "gfx_height": 1080,
+
+  "surfaces": [
+    {
+      w: 400,
+      h: 300,
+      res: 20
+    },
+    {
+      w: 400,
+      h: 300,
+      res: 20
+    }
+  ],
+
+  "total_frames": 1800,
+  "fps": 30,
+  "start_time": 0
+}
