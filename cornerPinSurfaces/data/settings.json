@@ -11,7 +11,7 @@
     {
       w: 1820,
       h: 1080,
-      res: 20,
+      res: 40,
       tx: 0,
       ty: 0,
       tw: 1820,
@@ -20,7 +20,7 @@
     {
       w: 100,
       h: 1080,
-      res: 20,
+      res: 40,
       tx: 1821,
       ty: 0,
       tw: 100,
@@ -29,6 +29,7 @@
   ],
 
   "keystone_data_path": "data/keystone.xml",
+  "keystone_data_load": true,
 
   "background_image_path": "data/MiniMartCityPark.jpg",
   "background_image_active": true,

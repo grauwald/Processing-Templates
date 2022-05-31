@@ -15,9 +15,8 @@ int START_TIME;
 
 int TOTAL_FRAMES;
 
-
-
 String KEYSTONE_DATA_PATH;
+Boolean KEYSTONE_DATA_LOAD;
 
 String BACKGROUND_IMAGE_PATH;
 Boolean BACKGROUND_IMAGE_ACTIVE;
@@ -63,12 +62,14 @@ void loadSettings() {
     surfacesDatum[i] = new SurfaceData(w, h, res, tx, ty, tw, th);
   }
 
-  // path to keystone lib's settings file
+  // path to keystone lib's calibration file
   KEYSTONE_DATA_PATH = settings.getString("keystone_data_path");
+
+  // should keystone calibration be loaded at start?
+  KEYSTONE_DATA_LOAD = settings.getBoolean("keystone_data_load");
 
   // background image is used for mocking up projections in physical spaces
   BACKGROUND_IMAGE_PATH = settings.getString("background_image_path");
-  println("BACKGROUND_IMAGE_PATH: "+BACKGROUND_IMAGE_PATH);
 
   // are we using the background image?
   BACKGROUND_IMAGE_ACTIVE = settings.getBoolean("background_image_active");

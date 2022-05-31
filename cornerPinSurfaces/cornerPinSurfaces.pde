@@ -43,7 +43,7 @@ void setup() {
     surfaces[i] = ks.createCornerPinSurface(w, h, res);
   }
 
-  ks.load(KEYSTONE_DATA_PATH);
+  if(KEYSTONE_DATA_LOAD) ks.load(KEYSTONE_DATA_PATH);
 
   // load background image
   if(BACKGROUND_IMAGE_ACTIVE) backgroundImage = loadImage(BACKGROUND_IMAGE_PATH);
