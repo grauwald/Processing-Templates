@@ -9,16 +9,26 @@
 
   "surfaces": [
     {
-      w: 400,
-      h: 300,
-      res: 20
+      w: 960,
+      h: 1080,
+      res: 20,
+      tx: 0,
+      ty: 0,
+      tw: 960,
+      th: 1080
     },
     {
-      w: 400,
-      h: 300,
-      res: 20
+      w: 960,
+      h: 1080,
+      res: 20,
+      tx: 961,
+      ty: 0,
+      tw: 960,
+      th: 1080
     }
   ],
+
+  "keystoneDataPath": "data/keystone.xml",
 
   "total_frames": 1800,
   "fps": 30,
