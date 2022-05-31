@@ -7,7 +7,6 @@ class Content {
   void render() {
     gfx.beginDraw();
 
-    // gfx.perspective(PI/3.0,(float)totalWidth/totalHeight,1, totalWidth*10);
     gfx.ortho();
 
     gfx.background(0);
@@ -19,7 +18,7 @@ class Content {
 
     gfx.translate(totalWidth*.95, totalHeight*.5, (sin(time*.2)-1)*.5*totalWidth*2);
 
-    float max = 7;
+    float max = 7.0;
     for(int d=0; d<max; d++) {
       float p = d/max;
 
@@ -27,13 +26,7 @@ class Content {
       gfx.rotateY(time*.017*p);
       gfx.fill(255*p, 128);
       gfx.box(totalWidth*(p+.01)*1.25);
-
     }
-
-
-
-
-
 
     gfx.endDraw();
   }
