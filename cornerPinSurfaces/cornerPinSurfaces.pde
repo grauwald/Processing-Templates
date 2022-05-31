@@ -12,6 +12,8 @@ Content content;
 
 HUD hud;
 
+PImage backgroundImage;
+
 void settings() {
   loadSettings();
   parseSettings();
@@ -31,17 +33,20 @@ void setup() {
 
   // init keystone surfaces
   ks = new Keystone(this);
-  surfaces = new CornerPinSurface[SURFACE_DATA.length];
+  surfaces = new CornerPinSurface[surfacesDatum.length];
 
-  for(int i=0; i < SURFACE_DATA.length; i++) {
-    int w = SURFACE_DATA[i].w;
-    int h = SURFACE_DATA[i].h;
-    int res = SURFACE_DATA[i].res;
+  for(int i=0; i < surfacesDatum.length; i++) {
+    int w = surfacesDatum[i].w;
+    int h = surfacesDatum[i].h;
+    int res = surfacesDatum[i].res;
 
     surfaces[i] = ks.createCornerPinSurface(w, h, res);
   }
 
   ks.load(KEYSTONE_DATA_PATH);
+
+  // load background image
+  if(BACKGROUND_IMAGE_ACTIVE) backgroundImage = loadImage(BACKGROUND_IMAGE_PATH);
 
   // content manager, separate from main app so it can be modified
   content = new Content();
@@ -52,22 +57,30 @@ void setup() {
 
 void draw() {
 
-  time += timeStep;
-
+  // if calibrating show cursor
   if(ks.isCalibrating()) cursor();
   else noCursor();
 
   background(0);
 
+  // background for simulating projection
+  if(BACKGROUND_IMAGE_ACTIVE) renderBackgroundImage();
+
   // render gfx
   content.render();
 
+  // if using background image simulate projection
+  if(BACKGROUND_IMAGE_ACTIVE){
+    tint(128); // simulate projector brightness
+    blendMode(SCREEN); // simulate projector light
+  }
+
   // display keystone surfaces
-  for(int i=0; i < SURFACE_DATA.length; i++) {
-    int tx = SURFACE_DATA[i].tx;
-    int ty = SURFACE_DATA[i].ty;
-    int tw = SURFACE_DATA[i].tw;
-    int th = SURFACE_DATA[i].th;
+  for(int i=0; i < surfacesDatum.length; i++) {
+    int tx = surfacesDatum[i].tx;
+    int ty = surfacesDatum[i].ty;
+    int tw = surfacesDatum[i].tw;
+    int th = surfacesDatum[i].th;
 
     surfaces[i].render(gfx, tx, ty, tw, th);
   }
@@ -75,7 +88,11 @@ void draw() {
   // record frames
   if (RECORD) recordFrames(frameCount);
 
+  // show heads up display
   hud.render();
+
+  // increase time
+  time += timeStep;
 
 }
 
@@ -90,6 +107,29 @@ void recordFrames(int frameNumber) {
   save(path+fileName);
 
   if (frameCount == TOTAL_FRAMES ) exit();
+}
+
+void renderBackgroundImage() {
+  pushStyle();
+  noTint();
+  imageMode(CENTER);
+
+  float x = width*.5;
+  float y = height*.5;
+  float w = 0;
+  float h = 0;
+
+  if(backgroundImage.width >= backgroundImage.height) {
+    w = width;
+    h = backgroundImage.height * (w/backgroundImage.width );
+  } else {
+    h = height;
+    w = backgroundImage.width  * (h/backgroundImage.height );
+  }
+
+
+  image(backgroundImage, x, y, w, h);
+  popStyle();
 }
 
 void keyPressed() {

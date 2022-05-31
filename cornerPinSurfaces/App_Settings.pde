@@ -15,13 +15,18 @@ int START_TIME;
 
 int TOTAL_FRAMES;
 
-SurfaceData[] SURFACE_DATA;
+
 
 String KEYSTONE_DATA_PATH;
+
+String BACKGROUND_IMAGE_PATH;
+Boolean BACKGROUND_IMAGE_ACTIVE;
 
 float totalWidth, totalHeight;
 
 float time, timeStep;
+
+SurfaceData[] surfacesDatum;
 
 
 void loadSettings() {
@@ -40,11 +45,11 @@ void loadSettings() {
   FPS = settings.getInt("fps");
   START_TIME = settings.getInt("start_time");
 
-  // get abstractions of surfaces
+  // get data abstractions of cornerpin surfaces
   JSONArray surfaceArray = settings.getJSONArray("surfaces");
-  SURFACE_DATA = new SurfaceData[ surfaceArray.size() ];
+  surfacesDatum = new SurfaceData[ surfaceArray.size() ];
 
-  for(int i=0; i < SURFACE_DATA.length; i++) {
+  for(int i=0; i < surfacesDatum.length; i++) {
     JSONObject surface = surfaceArray.getJSONObject(i);
     int w = surface.getInt("w");
     int h = surface.getInt("h");
@@ -55,11 +60,18 @@ void loadSettings() {
     int tw = surface.getInt("tw");
     int th = surface.getInt("th");
 
-    SURFACE_DATA[i] = new SurfaceData(w, h, res, tx, ty, tw, th);
+    surfacesDatum[i] = new SurfaceData(w, h, res, tx, ty, tw, th);
   }
 
   // path to keystone lib's settings file
-  KEYSTONE_DATA_PATH = settings.getString("keystoneDataPath");
+  KEYSTONE_DATA_PATH = settings.getString("keystone_data_path");
+
+  // background image is used for mocking up projections in physical spaces
+  BACKGROUND_IMAGE_PATH = settings.getString("background_image_path");
+  println("BACKGROUND_IMAGE_PATH: "+BACKGROUND_IMAGE_PATH);
+
+  // are we using the background image?
+  BACKGROUND_IMAGE_ACTIVE = settings.getBoolean("background_image_active");
 
 }
 
@@ -77,7 +89,7 @@ void parseSettings() {
 
 }
 
-// a simple data abstraction of surface
+// a simple data abstraction of a cornerpin surface
 class SurfaceData {
   int w, h, res;
   int tx, ty, tw, th;

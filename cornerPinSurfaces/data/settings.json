@@ -9,26 +9,29 @@
 
   "surfaces": [
     {
-      w: 960,
+      w: 1820,
       h: 1080,
       res: 20,
       tx: 0,
       ty: 0,
-      tw: 960,
+      tw: 1820,
       th: 1080
     },
     {
-      w: 960,
+      w: 100,
       h: 1080,
       res: 20,
-      tx: 961,
+      tx: 1821,
       ty: 0,
-      tw: 960,
+      tw: 100,
       th: 1080
     }
   ],
 
-  "keystoneDataPath": "data/keystone.xml",
+  "keystone_data_path": "data/keystone.xml",
+
+  "background_image_path": "data/MiniMartCityPark.jpg",
+  "background_image_active": true,
 
   "total_frames": 1800,
   "fps": 30,
