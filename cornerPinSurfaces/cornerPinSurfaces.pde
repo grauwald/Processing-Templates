@@ -52,6 +52,8 @@ void setup() {
 
 void draw() {
 
+  time += timeStep;
+
   if(ks.isCalibrating()) cursor();
   else noCursor();
 
@@ -61,8 +63,6 @@ void draw() {
   content.render();
 
   // display keystone surfaces
-
-
   for(int i=0; i < SURFACE_DATA.length; i++) {
     int tx = SURFACE_DATA[i].tx;
     int ty = SURFACE_DATA[i].ty;
