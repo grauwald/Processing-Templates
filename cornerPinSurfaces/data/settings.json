@@ -1,5 +1,5 @@
 {
-  "record": false,
+  "record": true,
 
   "output_path": "output/",
   "sketch_name": "CornerPinSurfacesTemplate",
@@ -34,7 +34,9 @@
   "background_image_path": "data/MiniMartCityPark.jpg",
   "background_image_active": true,
 
-  "total_frames": 1800,
+  "projector_brightness": 128,
+
+  "total_frames": 10,
   "fps": 30,
   "start_time": 0
 }

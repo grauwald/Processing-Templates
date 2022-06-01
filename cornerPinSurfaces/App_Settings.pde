@@ -1,5 +1,5 @@
 
-String settingsPath = "settings.json";
+String settingsPath = "data/settings.json";
 
 Boolean RECORD;
 
@@ -20,6 +20,8 @@ Boolean KEYSTONE_DATA_LOAD;
 
 String BACKGROUND_IMAGE_PATH;
 Boolean BACKGROUND_IMAGE_ACTIVE;
+
+float PROJECTOR_BRIGHTNESS;
 
 float totalWidth, totalHeight;
 
@@ -73,6 +75,9 @@ void loadSettings() {
 
   // are we using the background image?
   BACKGROUND_IMAGE_ACTIVE = settings.getBoolean("background_image_active");
+
+  // when using a background image
+  PROJECTOR_BRIGHTNESS = settings.getFloat("projector_brightness");
 
 }
 

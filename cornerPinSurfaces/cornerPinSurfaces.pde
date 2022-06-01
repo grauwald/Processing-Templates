@@ -71,7 +71,7 @@ void draw() {
 
   // if using background image simulate projection
   if(BACKGROUND_IMAGE_ACTIVE){
-    tint(128); // simulate projector brightness
+    tint(PROJECTOR_BRIGHTNESS); // simulate projector brightness
     blendMode(SCREEN); // simulate projector light
   }
 
@@ -89,7 +89,7 @@ void draw() {
   if (RECORD) recordFrames(frameCount);
 
   // show heads up display
-  hud.render();
+  if(!RECORD) hud.render();
 
   // increase time
   time += timeStep;
@@ -99,7 +99,7 @@ void draw() {
 
 void recordFrames(int frameNumber) {
 
-  String frameString = nfs(frameNumber, 4);
+  String frameString = nf(frameNumber, 4);
 
   String fileName = SKETCH_NAME+"_"+frameString+".png";
   String path = OUTPUT_PATH;
