@@ -1,5 +1,5 @@
 {
-  "record": true,
+  "record": false,
 
   "output_path": "output/",
   "sketch_name": "CornerPinSurfacesTemplate",
