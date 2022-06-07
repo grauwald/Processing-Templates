@@ -36,6 +36,8 @@
 
   "projector_brightness": 128,
 
+  "secondary_display": true,
+
   "total_frames": 10,
   "fps": 30,
   "start_time": 0

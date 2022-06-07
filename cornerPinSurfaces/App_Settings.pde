@@ -23,6 +23,8 @@ Boolean BACKGROUND_IMAGE_ACTIVE;
 
 float PROJECTOR_BRIGHTNESS;
 
+Boolean SECONDARY_DISPLAY;
+
 float totalWidth, totalHeight;
 
 float time, timeStep;
@@ -78,6 +80,9 @@ void loadSettings() {
 
   // when using a background image
   PROJECTOR_BRIGHTNESS = settings.getFloat("projector_brightness");
+
+  // if a second display is used should we use it?
+  SECONDARY_DISPLAY = settings.getBoolean("secondary_display");
 
 }
 

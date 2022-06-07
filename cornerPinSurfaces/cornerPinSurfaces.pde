@@ -18,7 +18,8 @@ void settings() {
   loadSettings();
   parseSettings();
 
-  fullScreen(P3D);
+  if(SECONDARY_DISPLAY) fullScreen(P3D, 2);
+  else fullScreen(P3D);
 
   smooth(8);
 }
