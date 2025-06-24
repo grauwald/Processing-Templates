@@ -21,7 +21,8 @@ void settings() {
   if(SECONDARY_DISPLAY) fullScreen(P3D, 2);
   else fullScreen(P3D);
 
-  smooth(8);
+  //smooth(8);
+  noSmooth();
 }
 
 void setup() {
